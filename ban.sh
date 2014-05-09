@@ -60,7 +60,7 @@ ban_addr()
 ban_dump_addrs()
 {
 	ban_dump_addrs_npf |
-	${sort_by_addrs_cmd}
+	sort_by_addrs_cmd
 }
 
 ###
