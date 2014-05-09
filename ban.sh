@@ -3,14 +3,6 @@
 . /etc/logban.conf
 : ${blacklist:=/var/tmp/blacklist}
 
-# XXX "sort -n -t . -u" is broken???
-#sort_by_addrs_cmd="/usr/bin/sort -n -t . -u"
-sort_by_addrs_cmd()
-{
-	/usr/bin/sort -n -t . |
-	/usr/bin/uniq
-}
-
 ban()
 {
 	local new=$( /usr/bin/mktemp )
@@ -18,7 +10,7 @@ ban()
 
 	ban_dump_addrs >${old}
 	/bin/cat ${old} ${1} |
-	sort_by_addrs_cmd >${new}
+	/usr/bin/sort -n -t . -u >${new}
 
 	if /usr/bin/cmp -s ${old} ${new}; then
 		:
@@ -60,7 +52,7 @@ ban_addr()
 ban_dump_addrs()
 {
 	ban_dump_addrs_npf |
-	sort_by_addrs_cmd
+	/usr/bin/sort -n -t . -u
 }
 
 ###
